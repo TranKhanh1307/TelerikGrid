@@ -1,0 +1,162 @@
+@inject CampaignService CampaignService
+@inject IJSRuntime JSRuntime
+
+    <TelerikGrid
+        Data="@FilteredCampaigns"
+        ConfirmDelete="true"
+        Pageable="true"
+        Sortable="true"
+        FilterMode="GridFilterMode.FilterMenu"
+        Resizable="true"
+        Reorderable="true"
+        EditMode="GridEditMode.Popup"
+        SelectionMode="GridSelectionMode.Multiple"
+        SelectedItems="@selectedCampaigns"
+        SelectedItemsChanged="@((IEnumerable<Campaign> items) => selectedCampaigns = items.ToList())"
+        PageSize="10"
+        Navigable="true"
+        OnDelete="@OnDeleteItem"
+        OnUpdate="@OnUpdateItem"
+    >
+        <GridToolBarTemplate >
+                <TelerikButton 
+                    Icon="@SvgIcon.Trash"
+                    Class="btn-delete-campaign"
+                    Enabled="@selectedCampaigns.Any()"
+                    OnClick="@DeleteSelectedAsync"
+                >
+                    Delete Campaign
+                </TelerikButton>
+
+                <div class="toolbar-right">
+                    <span class="search-box-wrapper">
+                        <TelerikSvgIcon Icon="@SvgIcon.Search" />
+                        <TelerikTextBox @bind-Value="@searchKeyword"
+                                        PlaceHolder="Search Keywords"
+                                        DebounceDelay="300" />
+                    </span>
+                    <TelerikButton Icon="@SvgIcon.ArrowRotateCw"
+                                FillMode="@ThemeConstants.Button.FillMode.Outline"
+                                OnClick="@RefreshAsync" />
+                </div>
+        </GridToolBarTemplate>
+        <GridColumns>
+            <GridCheckboxColumn Width="50px" />
+
+            <GridColumn Field="@nameof(Campaign.CampaignName)" Title="Campaign Name" />
+
+            <GridColumn Field="@nameof(Campaign.Active)" Title="Active" Width="140px">
+                <Template>
+                    @{ var item = (Campaign)context; }
+                    @if (item.Active)
+                    {
+                        <span class="status-badge badge-active">
+                            <TelerikSvgIcon Icon="@SvgIcon.Check" />
+                            Active
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="status-badge badge-inactive">
+                            <TelerikSvgIcon Icon="@SvgIcon.Cancel" />
+                            Inactive
+                        </span>
+                    }
+                </Template>
+            </GridColumn>
+
+            <GridColumn Field="@nameof(Campaign.RoutingMode)" Title="Routing Mode" />
+
+            <GridColumn Field="@nameof(Campaign.AssignedExperts)" Title="Assigned Experts" Width="170px">
+                <Template>
+                    @{ var item = (Campaign)context; }
+                    <span class="experts-cell">
+                        @item.AssignedExperts
+                        <TelerikSvgIcon Icon="@SvgIcon.User" />
+                    </span>
+                </Template>
+            </GridColumn>
+
+            <GridColumn Field="@nameof(Campaign.LiveRouteUrl)" Title="LiveRoute URL">
+                <Template>
+                    @{ var item = (Campaign)context; }
+                    <span class="url-cell">
+                        <span class="url-text" title="@item.LiveRouteUrl">@item.LiveRouteUrl</span>
+                        <TelerikButton Icon="@SvgIcon.Copy"
+                                       FillMode="@ThemeConstants.Button.FillMode.Flat"
+                                       Size="@ThemeConstants.Button.Size.Small"
+                                       Class="btn-copy"
+                                       OnClick="@(() => CopyToClipboardAsync(item.LiveRouteUrl))" />
+                    </span>
+                </Template>
+            </GridColumn>
+
+            <GridColumn Field="@nameof(Campaign.TrafficSource)" Title="Traffic Source" />
+            <GridColumn Field="@nameof(Campaign.Availability)" Title="Availability" />
+
+            <GridCommandColumn Title="Actions" Width="130px" Reorderable="false" Resizable="false">
+                <GridCommandButton Command="Custom"
+                                   Icon="@SvgIcon.Clock"
+                                   FillMode="@ThemeConstants.Button.FillMode.Flat"
+                                   OnClick="@OnScheduleClick" />
+                <GridCommandButton Command="Edit"
+                                   Icon="@SvgIcon.Pencil"
+                                   FillMode="@ThemeConstants.Button.FillMode.Flat" />
+                <GridCommandButton Command="Delete"
+                                   Icon="@SvgIcon.Trash"
+                                   FillMode="@ThemeConstants.Button.FillMode.Flat" />
+            </GridCommandColumn>
+        </GridColumns>
+    </TelerikGrid>
+
+@code {
+    private List<Campaign> campaigns = [];
+    private List<Campaign> selectedCampaigns = [];
+    private string searchKeyword = string.Empty;
+
+    private IEnumerable<Campaign> FilteredCampaigns =>
+        string.IsNullOrWhiteSpace(searchKeyword)
+            ? campaigns
+            : campaigns.Where(c =>
+                c.CampaignName.Contains(searchKeyword, StringComparison.OrdinalIgnoreCase) ||
+                c.TrafficSource?.Contains(searchKeyword, StringComparison.OrdinalIgnoreCase) == true);
+
+    protected override async Task OnInitializedAsync()
+    {
+        campaigns = await CampaignService.GetCampaignsAsync();
+    }
+
+    private async Task DeleteSelectedAsync()
+    {
+        foreach (var c in selectedCampaigns) campaigns.Remove(c);
+        selectedCampaigns = [];
+    }
+
+    private void OnDeleteItem(GridCommandEventArgs args)
+    {
+        campaigns.Remove((Campaign)args.Item);
+    }
+
+    private void OnUpdateItem(GridCommandEventArgs args)
+    {
+        var updated = (Campaign)args.Item;
+        var index = campaigns.FindIndex(c => c.Id == updated.Id);
+        if (index >= 0) campaigns[index] = updated;
+    }
+
+    private void OnScheduleClick(GridCommandEventArgs args)
+    {
+        // Open availability schedule dialog for (Campaign)args.Item
+    }
+
+    private async Task RefreshAsync()
+    {
+        campaigns = await CampaignService.GetCampaignsAsync();
+        selectedCampaigns = [];
+    }
+
+    private async Task CopyToClipboardAsync(string text)
+    {
+        await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", text);
+    }
+}

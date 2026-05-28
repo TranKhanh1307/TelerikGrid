@@ -1,0 +1,30 @@
+﻿@page "/"
+
+<PageTitle>Campaigns</PageTitle>
+
+<div id="home-page">
+    <h2 class="header-title">Campaigns</h2>
+    <p class="header-desc">Manage campaigns, routing, experts, and LiveRoute links.</p>
+    <CampaignGrid />
+</div>
+
+<style>
+    #home-page {
+        margin-top: 2rem;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: max-content;
+        font-size: var(--kendo-font-size-xl);
+    }
+
+    @* @@media (min-height: calc(56px + 50px + 400px)) {
+        /* header + footer + home page container*/
+        #home-page {
+            margin-top: calc(50vh - 28px - 25px - 200px);
+        }
+    } *@
+</style>
+
+@code {
+
+}
