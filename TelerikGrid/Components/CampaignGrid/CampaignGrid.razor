@@ -21,11 +21,11 @@
         <GridToolBarTemplate >
                 <TelerikButton 
                     Icon="@SvgIcon.Trash"
-                    Class="btn-delete-campaign"
+                    Class="btn-del"
                     Enabled="@selectedCampaigns.Any()"
                     OnClick="@DeleteSelectedAsync"
                 >
-                    Delete Campaign
+                    Delete Campaign (@selectedCampaigns.Count)
                 </TelerikButton>
 
                 <div class="toolbar-right">
@@ -43,9 +43,9 @@
         <GridColumns>
             <GridCheckboxColumn Width="50px" />
 
-            <GridColumn Field="@nameof(Campaign.CampaignName)" Title="Campaign Name" />
+            <GridColumn Field="@nameof(Campaign.CampaignName)" Title="Campaign Name" Width="227px"/>
 
-            <GridColumn Field="@nameof(Campaign.Active)" Title="Active" Width="140px">
+            <GridColumn Field="@nameof(Campaign.Active)" Title="Active" Width="120px">
                 <Template>
                     @{ var item = (Campaign)context; }
                     @if (item.Active)
@@ -58,16 +58,16 @@
                     else
                     {
                         <span class="status-badge badge-inactive">
-                            <TelerikSvgIcon Icon="@SvgIcon.Cancel" />
+                            <TelerikSvgIcon Icon="@SvgIcon.X" />
                             Inactive
                         </span>
                     }
                 </Template>
             </GridColumn>
 
-            <GridColumn Field="@nameof(Campaign.RoutingMode)" Title="Routing Mode" />
+            <GridColumn Field="@nameof(Campaign.RoutingMode)" Title="Routing Mode" Width="210px"/>
 
-            <GridColumn Field="@nameof(Campaign.AssignedExperts)" Title="Assigned Experts" Width="170px">
+            <GridColumn Field="@nameof(Campaign.AssignedExperts)" Title="Assigned Experts" Width="172px">
                 <Template>
                     @{ var item = (Campaign)context; }
                     <span class="experts-cell">
@@ -77,7 +77,7 @@
                 </Template>
             </GridColumn>
 
-            <GridColumn Field="@nameof(Campaign.LiveRouteUrl)" Title="LiveRoute URL">
+            <GridColumn Field="@nameof(Campaign.LiveRouteUrl)" Title="LiveRoute URL" Width="339px">
                 <Template>
                     @{ var item = (Campaign)context; }
                     <span class="url-cell">
@@ -91,14 +91,10 @@
                 </Template>
             </GridColumn>
 
-            <GridColumn Field="@nameof(Campaign.TrafficSource)" Title="Traffic Source" />
-            <GridColumn Field="@nameof(Campaign.Availability)" Title="Availability" />
+            <GridColumn Field="@nameof(Campaign.TrafficSource)" Title="Traffic Source" Width="178px"/>
+            <GridColumn Field="@nameof(Campaign.Availability)" Title="Availability" Width="198px"/>
 
-            <GridCommandColumn Title="Actions" Width="130px" Reorderable="false" Resizable="false">
-                <GridCommandButton Command="Custom"
-                                   Icon="@SvgIcon.Clock"
-                                   FillMode="@ThemeConstants.Button.FillMode.Flat"
-                                   OnClick="@OnScheduleClick" />
+            <GridCommandColumn Title="Actions" Width="107px" Reorderable="false" Resizable="false">
                 <GridCommandButton Command="Edit"
                                    Icon="@SvgIcon.Pencil"
                                    FillMode="@ThemeConstants.Button.FillMode.Flat" />
