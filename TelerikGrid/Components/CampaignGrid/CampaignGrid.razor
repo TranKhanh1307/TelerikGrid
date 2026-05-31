@@ -1,6 +1,10 @@
 @inject CampaignService CampaignService
 @inject IJSRuntime JSRuntime
 
+<!-- ═══════════════════════════════════════════
+     DESKTOP VIEW  (≥ 769 px) — untouched grid
+     ═══════════════════════════════════════════ -->
+<div class="desktop-view">
     <TelerikGrid
         Data="@FilteredCampaigns"
         ConfirmDelete="true"
@@ -18,28 +22,29 @@
         OnDelete="@OnDeleteItem"
         OnUpdate="@OnUpdateItem"
     >
-        <GridToolBarTemplate >
-                <TelerikButton 
-                    Icon="@SvgIcon.Trash"
-                    Class="btn-del"
-                    Enabled="@selectedCampaigns.Any()"
-                    OnClick="@DeleteSelectedAsync"
-                >
-                    Delete Campaign (@selectedCampaigns.Count)
-                </TelerikButton>
+        <GridToolBarTemplate>
+            <TelerikButton
+                Icon="@SvgIcon.Trash"
+                Class="btn-del"
+                Enabled="@selectedCampaigns.Any()"
+                OnClick="@DeleteSelectedAsync"
+            >
+                Delete Campaign (@selectedCampaigns.Count)
+            </TelerikButton>
 
-                <div class="toolbar-right">
-                    <span class="search-box-wrapper">
-                        <TelerikSvgIcon Icon="@SvgIcon.Search" />
-                        <TelerikTextBox @bind-Value="@searchKeyword"
-                                        PlaceHolder="Search Keywords"
-                                        DebounceDelay="300" />
-                    </span>
-                    <TelerikButton Icon="@SvgIcon.ArrowRotateCw"
-                                FillMode="@ThemeConstants.Button.FillMode.Outline"
-                                OnClick="@RefreshAsync" />
-                </div>
+            <div class="toolbar-right">
+                <span class="search-box-wrapper">
+                    <TelerikSvgIcon Icon="@SvgIcon.Search" />
+                    <TelerikTextBox @bind-Value="@searchKeyword"
+                                    PlaceHolder="Search Keywords"
+                                    DebounceDelay="300" />
+                </span>
+                <TelerikButton Icon="@SvgIcon.ArrowRotateCw"
+                               FillMode="@ThemeConstants.Button.FillMode.Outline"
+                               OnClick="@RefreshAsync" />
+            </div>
         </GridToolBarTemplate>
+
         <GridColumns>
             <GridCheckboxColumn Width="50px" />
 
@@ -65,7 +70,7 @@
                 </Template>
             </GridColumn>
 
-            <GridColumn Field="@nameof(Campaign.RoutingMode)" Title="Routing Mode" Width="210px"/>
+            <GridColumn Field="@nameof(Campaign.RoutingMode)"     Title="Routing Mode"     Width="210px"/>
 
             <GridColumn Field="@nameof(Campaign.AssignedExperts)" Title="Assigned Experts" Width="172px">
                 <Template>
@@ -92,7 +97,7 @@
             </GridColumn>
 
             <GridColumn Field="@nameof(Campaign.TrafficSource)" Title="Traffic Source" Width="178px"/>
-            <GridColumn Field="@nameof(Campaign.Availability)" Title="Availability" Width="198px"/>
+            <GridColumn Field="@nameof(Campaign.Availability)"  Title="Availability"   Width="198px"/>
 
             <GridCommandColumn Title="Actions" Width="107px" Reorderable="false" Resizable="false">
                 <GridCommandButton Command="Edit"
@@ -104,12 +109,156 @@
             </GridCommandColumn>
         </GridColumns>
     </TelerikGrid>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     MOBILE VIEW  (≤ 768 px) — card layout
+     ═══════════════════════════════════════════ -->
+<div class="mobile-view">
+
+    <!-- Toolbar: Search | Filter | Refresh -->
+    <div class="mobile-toolbar">
+        <span class="search-box-wrapper">
+            <TelerikSvgIcon Icon="@SvgIcon.Search" />
+            <TelerikTextBox @bind-Value="@searchKeyword"
+                            PlaceHolder="Search Keywords"
+                            DebounceDelay="300" />
+        </span>
+        <TelerikButton Icon="@SvgIcon.Filter"
+                       FillMode="@ThemeConstants.Button.FillMode.Outline"
+                       Class="btn-icon-square" />
+        <TelerikButton Icon="@SvgIcon.ArrowRotateCw"
+                       FillMode="@ThemeConstants.Button.FillMode.Outline"
+                       Class="btn-icon-square"
+                       OnClick="@RefreshAsync" />
+    </div>
+
+    <!-- Bulk-action bar: Select-all | Delete -->
+    <div class="mobile-bulk-bar">
+        <TelerikCheckBox Value="@AllSelected"
+                         ValueChanged="@((bool v) => AllSelected = v)" />
+        <TelerikButton Icon="@SvgIcon.Trash"
+                       Class="btn-del mobile-del-btn"
+                       Enabled="@selectedCampaigns.Any()"
+                       OnClick="@DeleteSelectedAsync">
+            Delete Campaign (@selectedCampaigns.Count)
+        </TelerikButton>
+    </div>
+
+    <!-- Cards -->
+    <div class="mobile-card-list">
+        @foreach (var campaign in FilteredCampaigns)
+        {
+            var item       = campaign;                               // capture loop var
+            var isSelected = selectedCampaigns.Contains(item);
+
+            <div class="campaign-card @(isSelected ? "card-selected" : "")">
+
+                <!-- ── Card Header ─────────────────────── -->
+                <div class="card-header">
+                    <TelerikCheckBox Value="@isSelected"
+                                     ValueChanged="@((bool v) => ToggleSelection(item, v))" />
+
+                    <span class="card-title">@item.CampaignName</span>
+
+                    @if (item.Active)
+                    {
+                        <span class="status-badge badge-active">
+                            <TelerikSvgIcon Icon="@SvgIcon.Check" />
+                            Active
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="status-badge badge-inactive">
+                            <TelerikSvgIcon Icon="@SvgIcon.X" />
+                            Inactive
+                        </span>
+                    }
+
+                    <!-- Three-dot context menu -->
+                    <div class="card-menu-wrapper">
+                        <TelerikButton Icon="@SvgIcon.MoreVertical"
+                                       FillMode="@ThemeConstants.Button.FillMode.Flat"
+                                       Class="btn-card-menu"
+                                       OnClick="@(() => ToggleCardMenu(item))" />
+
+                        @if (openMenuCampaign == item)
+                        {
+                            <!-- Backdrop to close menu on outside click -->
+                            <div class="card-menu-backdrop" @onclick="CloseCardMenu"></div>
+
+                            <div class="card-dropdown">
+                                <button class="card-dropdown-item" @onclick="CloseCardMenu">
+                                    <TelerikSvgIcon Icon="@SvgIcon.Pencil" />
+                                    Edit
+                                </button>
+                                <button class="card-dropdown-item card-dropdown-delete"
+                                        @onclick="@(() => DeleteCardItem(item))">
+                                    <TelerikSvgIcon Icon="@SvgIcon.Trash" />
+                                    Delete
+                                </button>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- ── Card Body ───────────────────────── -->
+                <div class="card-body">
+                    <div class="card-row">
+                        <span class="card-label">Routing Mode</span>
+                        <span class="card-value">@item.RoutingMode</span>
+                    </div>
+
+                    <div class="card-row">
+                        <span class="card-label">Assigned Expert</span>
+                        <span class="card-value">
+                            @item.AssignedExperts
+                            <TelerikSvgIcon Icon="@SvgIcon.User" />
+                        </span>
+                    </div>
+
+                    <div class="card-row">
+                        <span class="card-label">LiveRoute URL</span>
+                        <span class="card-value url-cell">
+                            <span class="url-text" title="@item.LiveRouteUrl">@item.LiveRouteUrl</span>
+                            <TelerikButton Icon="@SvgIcon.Copy"
+                                           FillMode="@ThemeConstants.Button.FillMode.Flat"
+                                           Size="@ThemeConstants.Button.Size.Small"
+                                           Class="btn-copy"
+                                           OnClick="@(() => CopyToClipboardAsync(item.LiveRouteUrl))" />
+                        </span>
+                    </div>
+
+                    <div class="card-row">
+                        <span class="card-label">Traffic Source</span>
+                        <span class="card-value">@item.TrafficSource</span>
+                    </div>
+
+                    <div class="card-row">
+                        <span class="card-label">Availability</span>
+                        <span class="card-value">@item.Availability</span>
+                    </div>
+                </div>
+
+            </div>
+        }
+    </div>
+
+</div>
+
 
 @code {
-    private List<Campaign> campaigns = [];
-    private List<Campaign> selectedCampaigns = [];
-    private string searchKeyword = string.Empty;
+    // ── Shared state ────────────────────────────────
+    private List<Campaign> campaigns          = [];
+    private List<Campaign> selectedCampaigns  = [];
+    private string         searchKeyword      = string.Empty;
 
+    // ── Mobile-only state ───────────────────────────
+    private Campaign? openMenuCampaign = null;
+
+    // ── Computed ────────────────────────────────────
     private IEnumerable<Campaign> FilteredCampaigns =>
         string.IsNullOrWhiteSpace(searchKeyword)
             ? campaigns
@@ -117,11 +266,20 @@
                 c.CampaignName.Contains(searchKeyword, StringComparison.OrdinalIgnoreCase) ||
                 c.TrafficSource?.Contains(searchKeyword, StringComparison.OrdinalIgnoreCase) == true);
 
+    /// <summary>Drives the mobile select-all checkbox.</summary>
+    private bool AllSelected
+    {
+        get => FilteredCampaigns.Any() && FilteredCampaigns.All(c => selectedCampaigns.Contains(c));
+        set => selectedCampaigns = value ? FilteredCampaigns.ToList() : [];
+    }
+
+    // ── Lifecycle ────────────────────────────────────
     protected override async Task OnInitializedAsync()
     {
         campaigns = await CampaignService.GetCampaignsAsync();
     }
 
+    // ── Shared actions ───────────────────────────────
     private async Task DeleteSelectedAsync()
     {
         foreach (var c in selectedCampaigns) campaigns.Remove(c);
@@ -136,7 +294,7 @@
     private void OnUpdateItem(GridCommandEventArgs args)
     {
         var updated = (Campaign)args.Item;
-        var index = campaigns.FindIndex(c => c.Id == updated.Id);
+        var index   = campaigns.FindIndex(c => c.Id == updated.Id);
         if (index >= 0) campaigns[index] = updated;
     }
 
@@ -147,12 +305,32 @@
 
     private async Task RefreshAsync()
     {
-        campaigns = await CampaignService.GetCampaignsAsync();
+        campaigns        = await CampaignService.GetCampaignsAsync();
         selectedCampaigns = [];
     }
 
     private async Task CopyToClipboardAsync(string text)
     {
         await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", text);
+    }
+
+    // ── Mobile-only actions ──────────────────────────
+    private void ToggleSelection(Campaign item, bool selected)
+    {
+        if (selected) { if (!selectedCampaigns.Contains(item)) selectedCampaigns.Add(item); }
+        else selectedCampaigns.Remove(item);
+    }
+
+    private void ToggleCardMenu(Campaign item)
+        => openMenuCampaign = openMenuCampaign == item ? null : item;
+
+    private void CloseCardMenu()
+        => openMenuCampaign = null;
+
+    private void DeleteCardItem(Campaign item)
+    {
+        campaigns.Remove(item);
+        selectedCampaigns.Remove(item);
+        CloseCardMenu();
     }
 }

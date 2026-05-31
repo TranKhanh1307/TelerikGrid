@@ -327,7 +327,7 @@ div.appbar-bottom {
 
 .badge-active {
   background-color: rgb(var(--badge-primary) / 0.5);
-  color: var(--badge-foreground);
+  color: rgb(var(--badge-foreground));
 }
 
 .badge-inactive {
@@ -391,6 +391,255 @@ div.appbar-bottom {
   padding-top: var(--telerik-grid-padding) !important;
   padding-inline: var(--telerik-grid-padding) !important;
 }
+
+
+/* ╔══════════════════════════════════════════════╗
+   ║          RESPONSIVE — MOBILE CARD VIEW       ║
+   ╚══════════════════════════════════════════════╝ */
+
+/* ── Show / hide by breakpoint ────────────────── */
+.mobile-view { display: none; }
+
+@media (max-width: 768px) {
+  .desktop-view { display: none; }
+
+  .mobile-view {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    background-color: rgb(var(--card));
+    border-radius: var(--radius-base);
+  }
+}
+
+
+/* ── Mobile Toolbar ───────────────────────────── */
+.mobile-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 0.75rem 0;
+}
+
+/* Search stretches to fill available width */
+.mobile-toolbar .search-box-wrapper {
+  flex: 1;
+  min-width: 0;
+  height: 42px;
+}
+
+/* Square icon-only buttons */
+.btn-icon-square.k-button {
+  width: 42px !important;
+  height: 42px !important;
+  flex-shrink: 0;
+  padding: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 1px solid rgb(var(--border)) !important;
+  border-radius: var(--radius-base) !important;
+  background-color: transparent !important;
+  color: rgb(var(--foreground)) !important;
+}
+
+.btn-icon-square.k-button:hover {
+  background-color: rgb(var(--accent)) !important;
+}
+
+
+/* ── Mobile Bulk-Action Bar ───────────────────── */
+.mobile-bulk-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0 0.75rem;
+  justify-content: space-between;
+}
+
+.card-header .k-checkbox-wrap {
+  margin-block: auto;
+}
+
+.mobile-bulk-bar .k-checkbox-wrap {
+  margin-block: auto;
+}
+
+/* Delete button spans remaining space */
+.mobile-del-btn.k-button {
+  justify-content: center;
+  /* reuse shared .btn-del rules; override border when enabled */
+  border: 1px solid rgb(var(--foreground)) !important;
+}
+
+.mobile-del-btn.k-button.k-disabled {
+  border: none !important;
+}
+
+/* Reuse shared btn-del color rules outside .k-grid scope */
+.mobile-bulk-bar .btn-del,
+.mobile-bulk-bar .btn-del .k-svg-icon {
+  color: rgb(var(--foreground)) !important;
+}
+
+.mobile-bulk-bar .btn-del.k-disabled,
+.mobile-bulk-bar .btn-del.k-disabled .k-svg-icon {
+  color: rgb(var(--muted-foreground)) !important;
+}
+
+.mobile-bulk-bar .btn-del {
+  padding: 10px 16px !important;
+  background-color: transparent !important;
+  border-radius: var(--radius-base) !important;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1rem;
+}
+
+.mobile-bulk-bar .btn-del:hover {
+  background-color: rgb(var(--accent)) !important;
+}
+
+.mobile-bulk-bar .btn-del.k-disabled {
+  background-color: rgb(var(--muted)) !important;
+}
+
+
+/* ── Mobile Card List ─────────────────────────── */
+.mobile-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0 0.75rem 0.75rem;
+}
+
+
+/* ── Campaign Card ────────────────────────────── */
+.campaign-card {
+  background-color: rgb(var(--card));
+  border-radius: var(--radius-base);
+  border: 1px solid rgb(var(--border));
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: border-color 0.15s ease;
+}
+
+.campaign-card.card-selected {
+  border-color: rgb(var(--positive));
+}
+
+
+/* ── Card Header ──────────────────────────────── */
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.card-title {
+  flex: 1;
+  min-width: 0;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: rgb(var(--foreground));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Three-dot menu */
+.card-menu-wrapper {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.btn-card-menu.k-button {
+  color: rgb(var(--foreground)) !important;
+  padding: 0.2rem !important;
+}
+
+/* Invisible full-screen backdrop to close on outside tap */
+.card-menu-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 190;
+}
+
+.card-dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 4px);
+  z-index: 200;
+  min-width: 130px;
+  background-color: rgb(var(--card));
+  border: 1px solid rgb(var(--border));
+  border-radius: var(--radius-base);
+  box-shadow: 0 6px 16px rgb(0 0 0 / 0.3);
+  overflow: hidden;
+}
+
+.card-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.6rem 0.875rem;
+  background: transparent;
+  border: none;
+  color: rgb(var(--foreground));
+  font-size: 0.875rem;
+  font-family: "Roboto", sans-serif;
+  cursor: pointer;
+  text-align: left;
+}
+
+.card-dropdown-item:hover {
+  background-color: rgb(var(--accent));
+}
+
+.card-dropdown-delete,
+.card-dropdown-delete .k-svg-icon {
+  color: rgb(var(--destructive, 239 68 68)) !important;
+}
+
+
+/* ── Card Body ────────────────────────────────── */
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.card-row {
+  display: flex;
+  align-items: center;
+  font-size: 0.875rem;
+  min-height: 1.75rem;
+  gap: 20px;
+}
+
+.card-label {
+  flex-shrink: 0;
+  color: rgb(var(--muted-foreground));
+  margin-right: 0.5rem;
+  flex-basis: 102px;
+}
+
+.card-value {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  min-width: 0;
+  color: rgb(var(--foreground));
+  text-align: right;
+}
+
+/* Constrain URL text on cards */
+.card-value .url-text {
+}
+
 
 /* Others */
 .header-title {
