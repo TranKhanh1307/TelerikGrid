@@ -8,6 +8,9 @@
   --primary: 152 213 122;
   --primary-foreground: 0 0 0;
 
+  --destructive: 255 99 71;
+  --destructive-foreground: 255 255 255;
+
   --secondary: 255 255 255;
 
   --accent: 44 74 30;
@@ -190,6 +193,231 @@ div.appbar-bottom {
 
 #copyright {
   padding: 0.5em 0;
+}
+
+/* ===================================================
+   HEADER
+=================================================== */
+
+.app-header {
+    height: 72px;
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding-inline: 1rem;
+
+    background-color: rgb(var(--card));
+
+    border-bottom: 1px solid rgb(var(--border));
+
+    color: rgb(var(--foreground));
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo-wrapper {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+}
+
+.logo-title {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.logo-subtitle {
+    font-size: .75rem;
+    opacity: .7;
+}
+
+.menu-toggle {
+    color: rgb(var(--foreground)) !important;
+}
+
+.header-user {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+}
+
+.user-avatar {
+    width: 42px;
+    height: 42px;
+
+    border-radius: 999px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #ff9900;
+
+    font-weight: 700;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-info small {
+    opacity: .7;
+}
+
+/* ===================================================
+   BODY
+=================================================== */
+
+.app-body {
+    flex: 1;
+    display: flex;
+    min-height: 0;
+}
+
+/* ===================================================
+   SIDEBAR
+=================================================== */
+
+.sidebar {
+    width: 240px;
+
+    background-color: rgb(var(--card));
+
+    border-right: 1px solid rgb(var(--border));
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    transition: transform .25s ease;
+}
+
+.sidebar-top {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: .5rem;
+}
+
+.sidebar-title {
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.sidebar a {
+    color: rgb(var(--foreground));
+    text-decoration: none;
+
+    padding: 1rem;
+
+    border-radius: var(--radius-base);
+
+    transition: .2s;
+}
+
+.sidebar a:hover {
+    background-color: rgb(var(--accent) / .5);
+}
+
+.sidebar a.active {
+    background-color: rgb(var(--accent));
+    color: rgb(var(--primary));
+    font-weight: 600;
+}
+
+.sidebar-bottom {
+    padding: 1rem;
+    border-top: 1px solid rgb(var(--border));
+}
+
+.logout-btn {
+    width: 100%;
+    justify-content: flex-start;
+    background-color: rgb(var(--card));
+    color: rgb(var(--destructive));
+}
+
+.logout-btn:hover {
+    background-color: rgb(var(--destructive));
+    color: rgb(var(--destructive-foreground));
+}
+
+/* ===================================================
+   CONTENT
+=================================================== */
+
+.app-content {
+    flex: 1;
+    min-width: 0;
+    overflow: auto;
+
+    padding: 1rem;
+
+    background-color: rgb(var(--background));
+}
+
+/* ===================================================
+   MOBILE
+=================================================== */
+
+.sidebar-overlay {
+    position: fixed;
+    inset: 0;
+
+    background: rgb(0 0 0 / .5);
+
+    z-index: 900;
+}
+
+@media (max-width: 768px) {
+
+    .sidebar {
+        position: fixed;
+
+        top: 0;
+        left: 0;
+        bottom: 0;
+
+        width: 280px;
+
+        z-index: 1100;
+
+        transform: translateX(-100%);
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .user-info {
+        display: none;
+    }
+
+    .logo-title {
+        font-size: 1.5rem;
+    }
+}
+
+/* Desktop */
+
+@media (min-width: 769px) {
+
+    .menu-toggle {
+        display: none !important;
+    }
+
+    .sidebar {
+        transform: none !important;
+        position: relative;
+    }
 }
 
 /* Telerik Grid */
