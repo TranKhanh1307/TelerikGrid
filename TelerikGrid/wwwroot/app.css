@@ -200,76 +200,76 @@ div.appbar-bottom {
 =================================================== */
 
 .app-header {
-    height: 72px;
-    flex-shrink: 0;
+  height: 72px;
+  flex-shrink: 0;
 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-    padding-inline: 1rem;
+  padding-inline: 1rem;
 
-    background-color: rgb(var(--card));
+  background-color: rgb(var(--card));
 
-    border-bottom: 1px solid rgb(var(--border));
+  border-bottom: 1px solid rgb(var(--border));
 
-    color: rgb(var(--foreground));
+  color: rgb(var(--foreground));
 }
 
 .header-left {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .logo-wrapper {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.1;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
 }
 
 .logo-title {
-    font-size: 2rem;
-    font-weight: 700;
+  font-size: 2rem;
+  font-weight: 700;
 }
 
 .logo-subtitle {
-    font-size: .75rem;
-    opacity: .7;
+  font-size: .75rem;
+  opacity: .7;
 }
 
 .menu-toggle {
-    color: rgb(var(--foreground)) !important;
+  color: rgb(var(--foreground)) !important;
 }
 
 .header-user {
-    display: flex;
-    align-items: center;
-    gap: .75rem;
+  display: flex;
+  align-items: center;
+  gap: .75rem;
 }
 
 .user-avatar {
-    width: 42px;
-    height: 42px;
+  width: 42px;
+  height: 42px;
 
-    border-radius: 999px;
+  border-radius: 999px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    background: #ff9900;
+  background: #ff9900;
 
-    font-weight: 700;
+  font-weight: 700;
 }
 
 .user-info {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .user-info small {
-    opacity: .7;
+  opacity: .7;
 }
 
 /* ===================================================
@@ -277,9 +277,9 @@ div.appbar-bottom {
 =================================================== */
 
 .app-body {
-    flex: 1;
-    display: flex;
-    min-height: 0;
+  flex: 1;
+  display: flex;
+  min-height: 0;
 }
 
 /* ===================================================
@@ -287,67 +287,67 @@ div.appbar-bottom {
 =================================================== */
 
 .sidebar {
-    width: 240px;
+  width: 240px;
 
-    background-color: rgb(var(--card));
+  background-color: rgb(var(--card));
 
-    border-right: 1px solid rgb(var(--border));
+  border-right: 1px solid rgb(var(--border));
 
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
-    transition: transform .25s ease;
+  transition: transform .25s ease;
 }
 
 .sidebar-top {
-    display: flex;
-    flex-direction: column;
-    padding: 1rem;
-    gap: .5rem;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  gap: .5rem;
 }
 
 .sidebar-title {
-    font-weight: 700;
-    margin-bottom: 1rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
 }
 
 .sidebar a {
-    color: rgb(var(--foreground));
-    text-decoration: none;
+  color: rgb(var(--foreground));
+  text-decoration: none;
 
-    padding: 1rem;
+  padding: 1rem;
 
-    border-radius: var(--radius-base);
+  border-radius: var(--radius-base);
 
-    transition: .2s;
+  transition: .2s;
 }
 
 .sidebar a:hover {
-    background-color: rgb(var(--accent) / .5);
+  background-color: rgb(var(--accent) / .5);
 }
 
 .sidebar a.active {
-    background-color: rgb(var(--accent));
-    color: rgb(var(--primary));
-    font-weight: 600;
+  background-color: rgb(var(--accent));
+  color: rgb(var(--primary));
+  font-weight: 600;
 }
 
 .sidebar-bottom {
-    padding: 1rem;
-    border-top: 1px solid rgb(var(--border));
+  padding: 1rem;
+  border-top: 1px solid rgb(var(--border));
 }
 
 .logout-btn {
-    width: 100%;
-    justify-content: flex-start;
-    background-color: rgb(var(--card));
-    color: rgb(var(--destructive));
+  width: 100%;
+  justify-content: flex-start;
+  background-color: rgb(var(--card));
+  color: rgb(var(--destructive));
 }
 
 .logout-btn:hover {
-    background-color: rgb(var(--destructive));
-    color: rgb(var(--destructive-foreground));
+  background-color: rgb(var(--destructive));
+  color: rgb(var(--destructive-foreground));
 }
 
 /* ===================================================
@@ -355,13 +355,13 @@ div.appbar-bottom {
 =================================================== */
 
 .app-content {
-    flex: 1;
-    min-width: 0;
-    overflow: auto;
+  flex: 1;
+  min-width: 0;
+  overflow: auto;
 
-    padding: 1rem;
+  padding: 1rem;
 
-    background-color: rgb(var(--background));
+  background-color: rgb(var(--background));
 }
 
 /* ===================================================
@@ -369,55 +369,55 @@ div.appbar-bottom {
 =================================================== */
 
 .sidebar-overlay {
-    position: fixed;
-    inset: 0;
+  position: fixed;
+  inset: 0;
 
-    background: rgb(0 0 0 / .5);
+  background: rgb(0 0 0 / .5);
 
-    z-index: 900;
+  z-index: 900;
 }
 
 @media (max-width: 768px) {
 
-    .sidebar {
-        position: fixed;
+  .sidebar {
+    position: fixed;
 
-        top: 0;
-        left: 0;
-        bottom: 0;
+    top: 0;
+    left: 0;
+    bottom: 0;
 
-        width: 280px;
+    width: 280px;
 
-        z-index: 1100;
+    z-index: 1100;
 
-        transform: translateX(-100%);
-    }
+    transform: translateX(-100%);
+  }
 
-    .sidebar.open {
-        transform: translateX(0);
-    }
+  .sidebar.open {
+    transform: translateX(0);
+  }
 
-    .user-info {
-        display: none;
-    }
+  .user-info {
+    display: none;
+  }
 
-    .logo-title {
-        font-size: 1.5rem;
-    }
+  .logo-title {
+    font-size: 1.5rem;
+  }
 }
 
 /* Desktop */
 
 @media (min-width: 769px) {
 
-    .menu-toggle {
-        display: none !important;
-    }
+  .menu-toggle {
+    display: none !important;
+  }
 
-    .sidebar {
-        transform: none !important;
-        position: relative;
-    }
+  .sidebar {
+    transform: none !important;
+    position: relative;
+  }
 }
 
 /* Telerik Grid */
@@ -468,6 +468,15 @@ div.appbar-bottom {
 }
 
 /* ── Campaign Toolbar ─────────────────────────── */
+.toolbar-content {
+  display: flex;
+  padding-top: 1rem;
+  padding-inline: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
 .campaign-grid-wrapper {
   display: flex;
   flex-direction: column;
@@ -580,6 +589,7 @@ div.appbar-bottom {
 .url-text {
   flex: 1;
   min-width: 0;
+  max-width: 200px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -605,9 +615,8 @@ div.appbar-bottom {
   border-bottom: 1px solid rgb(var(--border)) !important;
 }
 
-.k-grid tbody .k-command-cell {}
-
 .k-toolbar {
+  display: none;
   background-color: rgb(var(--card));
   border: none;
 }
@@ -622,25 +631,54 @@ div.appbar-bottom {
 
 
 /* ╔══════════════════════════════════════════════╗
-   ║          RESPONSIVE — MOBILE CARD VIEW       ║
+   ║     RESPONSIVE — MOBILE CARD VIEW TELERIK    ║
    ╚══════════════════════════════════════════════╝ */
 
 /* ── Show / hide by breakpoint ────────────────── */
-.mobile-view { display: none; }
+/* .mobile-view {
+  display: none;
+} */
 
 @media (max-width: 768px) {
-  .desktop-view { display: none; }
+  /* .desktop-view { display: none; } */
 
-  .mobile-view {
+  /* .mobile-view {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
     background-color: rgb(var(--card));
     border-radius: var(--radius-base);
+  } */
+
+  .k-grid-stack-cell:nth-child(2) .k-grid-stack-header,
+  .k-grid-stack-cell:nth-child(3) .k-grid-stack-header {
+    display: none !important;
+  }
+
+  .k-grid-stack-row {
+    grid-template-columns: auto 1fr auto auto;
+  }
+
+
+  .k-grid-stack-cell:nth-child(1),
+  .k-grid-stack-cell:nth-child(2),
+  .k-grid-stack-cell:nth-child(3),
+  .k-grid-stack-cell:nth-child(4) {
+    grid-column: span 1 !important;
+  }
+
+  .k-grid-stack-cell:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(3)):not(:nth-child(4)) {
+    align-items: center;
+    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 140px minmax(0, 1fr);
+    grid-column: span 4 !important;
   }
 }
 
-
+/* ╔═══════════════════════════════════════════════╗
+   ║ RESPONSIVE — MOBILE CARD VIEW CUSTOM (UNUSED) ║
+   ╚═══════════════════════════════════════════════╝ */
 /* ── Mobile Toolbar ───────────────────────────── */
 .mobile-toolbar {
   display: flex;
@@ -865,9 +903,7 @@ div.appbar-bottom {
 }
 
 /* Constrain URL text on cards */
-.card-value .url-text {
-}
-
+.card-value .url-text {}
 
 /* Others */
 .header-title {
