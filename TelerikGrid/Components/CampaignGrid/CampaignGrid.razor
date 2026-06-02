@@ -30,10 +30,6 @@
             <GridToolBarSearchBoxTool />
             </div>
         </GridToolBar> *@
-        <GridSettings>
-            <GridToolBarSettings>
-            </GridToolBarSettings>
-        </GridSettings>
         <GridToolBar>
             <div class="toolbar-content">
                 <TelerikButton Icon="@SvgIcon.Trash" Class="btn-del" Enabled="@selectedCampaigns.Any()"
@@ -53,7 +49,6 @@
                 <div class="mobile-bulk-bar">
                     <TelerikCheckBox Value="@AllSelected" ValueChanged="@((bool v) => AllSelected = v)" />
                 </div>
-
             </div>
         </GridToolBar>
 
